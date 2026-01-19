@@ -17,3 +17,7 @@ Comments from an artist/owner:
 ## Meanings of the symbols being used:
 
 Checkmark: Verified, (usually a music artist or fluidity. on fluidity.)
+
+## Artist accounts
+
+artist/@artistname
