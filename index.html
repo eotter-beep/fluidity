@@ -1,0 +1,123 @@
+<!doctype html>
+<head>
+    <title>fluidity. - The music label that simplifies everything.</title>
+</head>
+<body class="bg-gray-800">
+    <header class="bg-gray-500">
+        <nav class="container mx-auto px-4 py-2">
+            <ul class="flex justify-between items-center">
+                <h1 class="font-bold italic text-white">fluidity.</h1>
+                <li>
+                    <a href="index.html" class="text-white hover:text-gray-300"
+                        >Home</a
+                    >
+                </li>
+                <li>
+                    <a href="about.html" class="text-white hover:text-gray-300"
+                        >About</a
+                    >
+                </li>
+                <li>
+                    <a
+                        href="https://forms.gle/5BrV5aGtFkDjUzLUA"
+                        class="text-white hover:text-gray-300"
+                        >Submit a demo</a
+                    >
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <link rel="stylesheet" href="output.css" />
+    <div>
+        <h1 class="text-5xl text-center text-cyan-400">
+            Music for
+            <span class="text-5xl text-white" id="randomtext">everyone</span>
+        </h1>
+        <p class="text-white">
+            We blur the lines between reality and music, creating amazing music
+            from your favorite artists.
+        </p>
+    </div>
+    <div class="bg-gray-500">
+        <h2 class="text-3xl text-black">Pending Artists</h2>
+        <img src="jeezus-jamcks.jpg" />
+        <p>JEEZUS JAMCKS</p>
+    </div>
+    <script>
+        const randomText = document.getElementById("randomtext");
+        const texts = [
+            "everyone",
+            "everybody",
+            "EDM lovers",
+            "quality, not quantity",
+        ];
+        let index = 1;
+        let isAnimating = false;
+
+        randomText.style.display = "inline-block";
+        randomText.style.willChange = "transform, opacity";
+
+        async function changeText() {
+            if (isAnimating) return;
+            isAnimating = true;
+            const reduceMotion = window.matchMedia(
+                "(prefers-reduced-motion: reduce)",
+            ).matches;
+            if (reduceMotion) {
+                randomText.textContent = texts[index];
+                index = (index + 1) % texts.length;
+                isAnimating = false;
+                return;
+            }
+
+            randomText.getAnimations().forEach((anim) => anim.cancel());
+            randomText.style.transform = "translateY(0)";
+            randomText.style.opacity = "1";
+
+            const outAnim = randomText.animate(
+                [
+                    { transform: "translateY(0)", opacity: 1 },
+                    { transform: "translateY(-0.4em)", opacity: 0 },
+                ],
+                { duration: 160, easing: "ease-in", fill: "forwards" },
+            );
+            try {
+                await outAnim.finished;
+            } catch {
+                isAnimating = false;
+                return;
+            }
+            randomText.style.transform = "translateY(-0.4em)";
+            randomText.style.opacity = "0";
+            outAnim.cancel();
+
+            randomText.textContent = texts[index];
+            index = (index + 1) % texts.length;
+
+            randomText.style.transform = "translateY(0.6em)";
+            randomText.style.opacity = "0";
+            const inAnim = randomText.animate(
+                [
+                    { transform: "translateY(0.6em)", opacity: 0 },
+                    { transform: "translateY(0)", opacity: 1 },
+                ],
+                { duration: 260, easing: "ease-out" },
+            );
+            try {
+                await inAnim.finished;
+            } finally {
+                randomText.style.transform = "translateY(0)";
+                randomText.style.opacity = "1";
+                inAnim.cancel();
+                isAnimating = false;
+            }
+        }
+
+        async function tick() {
+            await changeText();
+            setTimeout(tick, 1000);
+        }
+
+        setTimeout(tick, 1000);
+    </script>
+</body>
