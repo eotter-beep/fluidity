@@ -7,7 +7,7 @@ Comments:
 <p>Details</p>
 ```
 
-Comments from an artist:
+Comments from an artist/owner:
 
 ```html
 <h2 class="text-2xl">Name &check;</h2>
@@ -16,4 +16,4 @@ Comments from an artist:
 
 ## Meanings of the symbols being used:
 
-Checkmark: Verified, (usually a music artist on fluidity.)
+Checkmark: Verified, (usually a music artist or fluidity. on fluidity.)
